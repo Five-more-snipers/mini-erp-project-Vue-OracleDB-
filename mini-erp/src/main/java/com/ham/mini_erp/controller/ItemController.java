@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import com.ham.mini_erp.entity.Item;
 import com.ham.mini_erp.repository.ItemRepository;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/items")
@@ -36,6 +37,8 @@ public class ItemController {
 
         item.setCreatedDate(
                 LocalDateTime.now());
+        item.setCode(
+                generateCode());
 
         return repository.save(item);
     }
@@ -51,5 +54,29 @@ public class ItemController {
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id) {
         repository.deleteById(id);
+    }
+
+    // CRUD - GENERATE CODE
+    @GetMapping("/{id}")
+    public Optional<Item> getById(@PathVariable Long id) {
+        return repository.findById(id);
+    }
+
+    private String generateCode() {
+
+        return repository.findTopByOrderByCodeDesc().map(item -> {
+            String code = item.getCode();
+            int runningNo = Integer.parseInt(code.substring(1));
+            runningNo++;
+            return String.format(
+                    "A%04d",
+                    runningNo);
+        })
+                .orElse("A0001");
+    }
+
+    @GetMapping("/active")
+    public List<Item> getActiveItems() {
+        return repository.findByActiveTrue();
     }
 }

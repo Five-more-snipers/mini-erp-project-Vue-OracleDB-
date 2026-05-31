@@ -9,13 +9,10 @@ const emit = defineEmits(['save', 'cancel'])
 
 <template>
   <div>
-    <input v-model="form.code" placeholder="Code" />
-
     <input v-model="form.name" placeholder="Name" />
-
     <input v-model="form.price" placeholder="Price" />
 
-    <input v-model="form.quantity" placeholder="Quantity" />
+    <!-- <input v-model="form.quantity" placeholder="Quantity" /> -->
 
     <button @click="emit('save')">
       {{ isEdit ? 'Update' : 'Save' }}
