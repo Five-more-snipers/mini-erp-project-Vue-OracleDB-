@@ -9,6 +9,9 @@ const emit = defineEmits(['save', 'cancel'])
 
 <template>
   <div>
+    <h2>Item Name - Item Price (IDR)</h2>
+  </div>
+  <div>
     <input v-model="form.name" placeholder="Name" />
     <input v-model="form.price" placeholder="Price" />
 
